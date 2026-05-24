@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ecog-cortical-speech-decoder"
+version = "0.1.0"
+description = "Exploratory tools for cortical speech decoding analyses on open ECoG data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Tara Girisaballa" }
+]
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "pandas>=2.0",
+  "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+neuro = [
+  "dandi>=0.63",
+  "pynwb>=2.6",
+]
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.4",
+  "scikit-learn>=1.3",
+]
+
+[project.scripts]
+ecog-cortical-speech-decoder = "ecog_cortical_speech_decoder.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ecog_cortical_speech_decoder"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
