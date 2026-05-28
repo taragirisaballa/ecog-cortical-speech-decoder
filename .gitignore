@@ -13,3 +13,5 @@ reports/*.png
 reports/*.csv
 reports/*.json
 !reports/dataset_card.md
+!reports/asset_inventory.md
+!reports/asset_inventory.csv
