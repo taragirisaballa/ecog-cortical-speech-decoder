@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from .dandi import DEFAULT_DANDISET_ID, DEFAULT_VERSION, built_in_summary, fetch_assets, fetch_dandiset_summary
+from .planning import build_session_plan, render_session_manifest, render_session_plan
 from .report import render_asset_inventory, render_asset_inventory_csv, render_dataset_card
 from .synthetic import run_decoder_smoke_test
 
@@ -32,6 +33,14 @@ def main() -> None:
     inventory_parser.add_argument("--out-md", default="reports/asset_inventory.md")
     inventory_parser.add_argument("--out-csv", default="reports/asset_inventory.csv")
 
+    plan_parser = subparsers.add_parser("session-plan", help="Select one DANDI NWB asset for local inspection.")
+    plan_parser.add_argument("--dandiset", default=DEFAULT_DANDISET_ID)
+    plan_parser.add_argument("--version", default=DEFAULT_VERSION)
+    plan_parser.add_argument("--subject")
+    plan_parser.add_argument("--strategy", default="smallest", choices=["smallest"])
+    plan_parser.add_argument("--out-md", default="reports/session_plan.md")
+    plan_parser.add_argument("--out-json", default="reports/session_manifest.json")
+
     smoke_parser = subparsers.add_parser("smoke-decode", help="Run a synthetic decoder demo.")
     smoke_parser.add_argument("--seed", type=int, default=7)
 
@@ -51,6 +60,22 @@ def main() -> None:
         md_path.write_text(render_asset_inventory(assets, args.dandiset, args.version), encoding="utf-8")
         csv_path.write_text(render_asset_inventory_csv(assets), encoding="utf-8")
         print(f"Wrote {md_path} and {csv_path}")
+    elif args.command == "session-plan":
+        assets = fetch_assets(args.dandiset, args.version)
+        plan = build_session_plan(
+            assets,
+            args.dandiset,
+            args.version,
+            subject=args.subject,
+            strategy=args.strategy,
+        )
+        md_path = Path(args.out_md)
+        json_path = Path(args.out_json)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.write_text(render_session_plan(plan, assets), encoding="utf-8")
+        json_path.write_text(render_session_manifest(plan), encoding="utf-8")
+        print(f"Wrote {md_path} and {json_path}")
     elif args.command == "smoke-decode":
         metrics = run_decoder_smoke_test(random_state=args.seed)
         print(f"accuracy={metrics['accuracy']:.3f} chance={metrics['chance']:.3f}")

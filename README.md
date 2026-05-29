@@ -35,6 +35,12 @@ Fetch the live DANDI asset list and write `reports/asset_inventory.md` plus `rep
 ecog-cortical-speech-decoder asset-inventory
 ```
 
+Select a first NWB file for local inspection and write `reports/session_plan.md` plus `reports/session_manifest.json`:
+
+```bash
+ecog-cortical-speech-decoder session-plan
+```
+
 Run the synthetic decoder example:
 
 ```bash
@@ -60,7 +66,7 @@ data/processed/                     Local derived features, ignored by git
 ## Next Steps
 
 - Inspect one downloaded NWB file and summarize the available streams, electrodes, and labels.
-- Use the asset inventory to choose a first small session to download.
+- Inspect the selected session from `reports/session_plan.md`.
 - Extract trial-aligned high-gamma features.
 - Train a simple baseline decoder for syllable labels.
 - Compare performance across channels and time windows.

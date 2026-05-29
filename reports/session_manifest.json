@@ -1,0 +1,17 @@
+{
+  "asset": {
+    "asset_id": "4e4287f2-b557-4f30-a2d6-932f18c3e915",
+    "created": "2021-07-02T13:28:11.165030Z",
+    "modified": "2021-08-05T18:46:46.109475Z",
+    "path": "sub-EC9/sub-EC9_ses-EC9-B15.nwb",
+    "session": "EC9-B15",
+    "size": "532.3 MiB",
+    "size_bytes": 558155445,
+    "subject": "EC9"
+  },
+  "dandiset_id": "000019",
+  "download_url": "https://api.dandiarchive.org/api/assets/4e4287f2-b557-4f30-a2d6-932f18c3e915/download/",
+  "local_path": "data/raw/sub-EC9/sub-EC9_ses-EC9-B15.nwb",
+  "selection_rule": "smallest asset overall",
+  "version": "0.220126.2148"
+}
